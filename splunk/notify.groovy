@@ -1,5 +1,15 @@
 @AfterStep
 void call(context){
-  println "sending a splunk event!" 
+  println "AFTER STEP"
   println context
+}
+
+@BeforeStep
+void before(context){
+ println "BEFORE STEP" 
+}
+
+@Notify
+void notify(context){
+  println "NOTIFY" 
 }
