@@ -53,30 +53,8 @@ class StepWrapper extends TemplatePrimitive{
         step implementation script. 
     */
     @Whitelisted
-    def invoke(String methodName, Object... args){
-        if(InvokerHelper.getMetaClass(impl).respondsTo(impl, methodName, args)){
-            def result
-            def context = [
-                step: name, 
-                library: library,
-                status: script.currentBuild.result
-            ]
-            try{
-                Hooks.invoke(BeforeStep, script.getBinding(), context)
-                TemplateLogger.print "[Step - ${library}/${name}.${methodName}(${args.collect{ it.getClass().simpleName }.join(", ")})]" 
-                result = InvokerHelper.getMetaClass(impl).invokeMethod(impl, methodName, args)
-            } catch (Exception x) {
-                script.currentBuild.result = "Failure"
-                throw new InvokerInvocationException(x)
-            } finally{
-                context.status = script.currentBuild.result
-                Hooks.invoke(AfterStep, script.getBinding(), context)
-                Hooks.invoke(Notify, script.getBinding(), context)
-            }
-            return result 
-        }else{
-            throw new TemplateException("Step ${name} from the library ${library} does not have the method ${methodName}(${args.collect{ it.getClass().simpleName }.join(", ")})")
-        }
+    def invoke(String methodName, Object... args){  
+        script.steps."myStep"."$methodName"(*args)
     }
 
     void throwPreLockException(){
