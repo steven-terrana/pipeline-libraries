@@ -54,8 +54,7 @@ class StepWrapper extends TemplatePrimitive{
     */
     @Whitelisted
     def invoke(String methodName, Object... args){  
-        return InvokerHelper.getMetaClass(impl).invokeMethod(impl, methodName, args) 
-    }
+        return impl.getMetaClass().getMetaMethod(methodName, args).invoke(impl, args) 
 
     void throwPreLockException(){
         throw new TemplateException ("Library Step Collision. The step ${name} already defined via the ${library} library.")
