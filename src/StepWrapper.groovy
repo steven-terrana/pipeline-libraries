@@ -92,6 +92,10 @@ class StepWrapper extends TemplatePrimitive{
         impl.metaClass."get${StepWrapper.libraryConfigVariable.capitalize()}" << { return libConfig }
         return new StepWrapper(script: script, impl: impl, name: name, library: library) 
     }
+    
+    static StepWrapper createFromClosure( body, CpsScript script ){
+        return new StepWrapper(impl: body, script: script)
+    }
 
 }
 
