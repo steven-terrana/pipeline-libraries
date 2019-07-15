@@ -54,7 +54,7 @@ class StepWrapper extends TemplatePrimitive{
     */
     @Whitelisted
     def invoke(String methodName, Object... args){  
-        script.steps."myStep"."$methodName"(args)
+        return InvokerHelper.getMetaClass(impl).invokeMethod(impl, methodName, args) 
     }
 
     void throwPreLockException(){
